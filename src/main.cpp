@@ -1,4 +1,5 @@
-#include "include/dotenv.h"
+#include "dotenv.h"
+#include "httplib.h"
 #include <curl/curl.h>
 #include <iostream>
 #include <cstdlib>
@@ -24,6 +25,15 @@ int main() {
     curl_slist *headers = NULL;
     CURL *curl = curl_easy_init();
     dotenv env(".env");
+    httplib::Server svr;
+
+
+    svr.Get("/", [](const httplib::Request &req, httplib::Response &res) {
+        std::cout << req.body << '\n';
+        res.set_content(req.body + "67", "text/plain");
+    });
+
+    svr.listen("0.0.0.0", 8080);
 
     headers = curl_slist_append(headers, ("Authorization: Bearer " + env.get("WPP_TOKEN")).c_str());
     headers = curl_slist_append(headers, "Content-Type: application/json");
@@ -32,6 +42,7 @@ int main() {
         return 1;
     }
 
+
     CURLcode result = Bot::send_message(curl, headers, env.get("NUMBER"), "Bom dia, ignore a próxima mensagem:");
     result = Bot::send_message(curl, headers, env.get("NUMBER"), "Teste hihihi");
 
@@ -39,3 +50,5 @@ int main() {
 
     return 0;
 }
+
+
