@@ -2,6 +2,8 @@
 #include <iostream>
 #include <cstdlib>
 
+#include "server.h"
+
 namespace Bot {
 std::string URL = "https://graph.facebook.com/v25.0/1321969807657106/messages";
 std::string DATA = "{\"messaging_product\": \"whatsapp\",\"to\": \"";
@@ -29,8 +31,6 @@ int main() {
         tamToken++;
     }
 
-    std::cout << tamToken;
-
     const int tam = 22 + tamToken;
 
     char a[tam] = "Authorization: Bearer ";
@@ -40,8 +40,6 @@ int main() {
         i++;
         j++;
     }
-
-    std::cout << a;
 
     headers = curl_slist_append(headers, (a));
     headers = curl_slist_append(headers, "Content-Type: application/json");
@@ -54,6 +52,8 @@ int main() {
     // result = Bot::send_message(curl, headers, env.get("NUMBER"), "Teste hihihi");
 
     curl_easy_cleanup(curl);
+
+    start_server(8080);
 
     return 0;
 }

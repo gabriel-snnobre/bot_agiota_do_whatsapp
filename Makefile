@@ -1,6 +1,6 @@
 CXX := g++
 
-CXXFLAGS := -std=c++17 -Wall -Wextra -Iinclude -MMD -MP
+CXXFLAGS := -std=c++20 -Wall -Wextra -Iinclude/ -Ithird_party/ -MMD -MP
 LDFLAGS := -lcurl
 
 TARGET := bin/main
