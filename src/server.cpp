@@ -17,6 +17,9 @@ void getHandler(const httplib::Request &req, httplib::Response &res) {
 }
 
 void postHandler(const httplib::Request &req, httplib::Response &res) {
+    std::cout << req.body << std::endl << std::flush;
+
+    res.status = 200;
 }
 
 void start_server(int port) {
