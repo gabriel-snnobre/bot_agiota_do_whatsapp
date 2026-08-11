@@ -27,22 +27,24 @@ int main() {
 
     int tamToken = 0;
 
-    while (std::getenv("WPP_TOKEN")[tamToken] != '\0') {
-        tamToken++;
+    if (std::getenv("WPP_TOKEN") != nullptr) {
+        while (std::getenv("WPP_TOKEN")[tamToken] != '\0') {
+            tamToken++;
+        }
+
+        const int tam = 22 + tamToken;
+
+        char a[tam] = "Authorization: Bearer ";
+
+        for (int i = 22, j = 0; i <= tam;) {
+            a[i] = std::getenv("WPP_TOKEN")[j];
+            i++;
+            j++;
+        }
+
+        headers = curl_slist_append(headers, (a));
+        headers = curl_slist_append(headers, "Content-Type: application/json");
     }
-
-    const int tam = 22 + tamToken;
-
-    char a[tam] = "Authorization: Bearer ";
-
-    for (int i = 22, j = 0; i <= tam;) {
-        a[i] = std::getenv("WPP_TOKEN")[j];
-        i++;
-        j++;
-    }
-
-    headers = curl_slist_append(headers, (a));
-    headers = curl_slist_append(headers, "Content-Type: application/json");
 
     if (!curl) {
         return 1;

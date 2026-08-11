@@ -7,7 +7,7 @@
       "-Wall",
       "-Wextra",
       "-Iinclude",
-      "-Ithird-party",
+      "-Ithird_party",
       "-MMD",
       "-MP",
       "-c",
