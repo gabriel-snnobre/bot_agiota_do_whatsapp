@@ -5,12 +5,15 @@ void getHandler(const httplib::Request &req, httplib::Response &res) {
     auto token = req.get_param_value("hub.verify_token");
     auto challenge = req.get_param_value("hub.challenge");
 
-    std::cout << mode;
-    std::cout << token;
-    std::cout << challenge;
-    std::cout << req.body << std::flush;
+    if (mode == "subscribe" && token == "letitrip") {
+        std::cout << "Webhook verified!" << std::endl
+                  << std::flush;
+        res.status = 200;
+        res.set_content(challenge, "text/plain");
+        return;
+    }
 
-    res.set_content(req.body + "Hello World", "text/plain");
+    res.status = 403;
 }
 
 void postHandler(const httplib::Request &req, httplib::Response &res) {
