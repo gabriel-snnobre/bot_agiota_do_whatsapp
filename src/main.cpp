@@ -1,5 +1,3 @@
-#include "dotenv.h"
-#include "httplib.h"
 #include <curl/curl.h>
 #include <iostream>
 #include <cstdlib>
@@ -24,31 +22,38 @@ CURLcode send_message(CURL *curl, curl_slist *header, std::string number, std::s
 int main() {
     curl_slist *headers = NULL;
     CURL *curl = curl_easy_init();
-    dotenv env(".env");
-    httplib::Server svr;
 
+    int tamToken = 0;
 
-    svr.Get("/", [](const httplib::Request &req, httplib::Response &res) {
-        std::cout << req.body << '\n';
-        res.set_content(req.body + "67", "text/plain");
-    });
+    while (std::getenv("WPP_TOKEN")[tamToken] != '\0') {
+        tamToken++;
+    }
 
-    svr.listen("0.0.0.0", 8080);
+    std::cout << tamToken;
 
-    headers = curl_slist_append(headers, ("Authorization: Bearer " + env.get("WPP_TOKEN")).c_str());
+    const int tam = 22 + tamToken;
+
+    char a[tam] = "Authorization: Bearer ";
+
+    for (int i = 22, j = 0; i <= tam;) {
+        a[i] = std::getenv("WPP_TOKEN")[j];
+        i++;
+        j++;
+    }
+
+    std::cout << a;
+
+    headers = curl_slist_append(headers, (a));
     headers = curl_slist_append(headers, "Content-Type: application/json");
 
     if (!curl) {
         return 1;
     }
 
-
-    CURLcode result = Bot::send_message(curl, headers, env.get("NUMBER"), "Bom dia, ignore a próxima mensagem:");
-    result = Bot::send_message(curl, headers, env.get("NUMBER"), "Teste hihihi");
+    // CURLcode result = Bot::send_message(curl, headers, env.get("NUMBER"), "Bom dia, ignore a próxima mensagem:");
+    // result = Bot::send_message(curl, headers, env.get("NUMBER"), "Teste hihihi");
 
     curl_easy_cleanup(curl);
 
     return 0;
 }
-
-

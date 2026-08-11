@@ -1,0 +1,20 @@
+[
+  {
+    "file": "src/main.cpp",
+    "arguments": [
+      "/bin/g++",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Iinclude",
+      "-MMD",
+      "-MP",
+      "-c",
+      "src/main.cpp",
+      "-o",
+      "bin/main.o"
+    ],
+    "directory": "/home/dihbgs/dev/whatsapp",
+    "output": "bin/main.o"
+  }
+]
