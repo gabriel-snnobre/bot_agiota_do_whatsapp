@@ -13,6 +13,7 @@ void getHandler(const httplib::Request &req, httplib::Response &res) {
         return;
     }
 
+    std::cout << "Failed request" << std::endl << std::flush;
     res.status = 403;
 }
 
